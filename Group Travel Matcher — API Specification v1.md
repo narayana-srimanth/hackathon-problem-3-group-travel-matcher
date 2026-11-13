@@ -102,7 +102,7 @@ One row per operation: everything a client needs to call it and everything it ca
 | E15 | `POST /groups/:groupId/join-requests` | `groupId` | – | `searchId`✱, `message` | `201 { request: JoinRequest, group: Group }` | 400, 401, 403, 404, 409, 422 |
 | E16 | `GET /groups/:groupId/join-requests` | `groupId` | `status`, `page`, `limit` | – | `200 Page<{ request, seeker }>` | 400, 401, 403, 404 |
 | E17 | `GET /me/join-requests` | – | `status`, `page`, `limit` | – | `200 Page<{ request, group }>` | 400, 401 |
-| E18 | `POST /join-requests/:requestId/approve` | `requestId` | – | – | `200 { request, group, closedRequestIds }` | 401, 403, 404, 409 |
+| E18 | `POST /join-requests/:requestId/approve` | `requestId` | – | – | `200 { request, group, closedRequestIds, closedSeekerRequestIds }` | 401, 403, 404, 409 |
 | E19 | `POST /join-requests/:requestId/reject` | `requestId` | – | – | `200 { request: JoinRequest }` | 401, 403, 404, 409 |
 | E20 | `POST /join-requests/:requestId/withdraw` | `requestId` | – | – | `200 { request: JoinRequest }` | 401, 403, 404, 409 |
 | E21 | `GET /groups/:groupId/hotels` | `groupId` | `sort`, `minStars`, `minRating`, `maxPerMemberInr`, `roomType`, `planFor`, `page`, `limit` | – | `200 { context, page, limit, total, items[] }` | 400, 401, 403, 404 |
@@ -144,6 +144,8 @@ Every non-2xx response has the same envelope. The client switches on `error.code
 | 409 | `GROUP_FULL` | No free place (at request time, or taken before approval) | E15, E18 |
 | 409 | `GROUP_CLOSED` | Group is BOOKED | E15, E18, E22, E28 |
 | 409 | `REQUEST_NOT_PENDING` | Approve, reject or withdraw on a request that is no longer PENDING | E18–E20 |
+| 409 | `DATES_CONFLICT` | The seeker is already a member of another group whose stay shares at least one night with this one (any city). `details[0]` is `{ "groupId", "issue" }` naming that group. Back-to-back stays don't conflict. | E15, E18 |
+| 409 | `CONFLICT` | Another change is in progress (retry): an approval of the same traveller (E18), a member joining while the group books (E28), or an unexpected duplicate | E18, E28, any |
 | 409 | `ALREADY_SAVED` | That room is already a saved option for the group | E22 |
 | 409 | `ALREADY_BOOKED` | The group already has a booking | E27, E28 |
 | 422 | `OUT_OF_DATA_RANGE` | City not one of the 5, or dates outside 1–20 Apr 2027. The message names the allowed values. | E08, E11 |
@@ -276,6 +278,7 @@ interface BookingQuote {
 **Invariants the client can rely on**
 
 - `Group.freeSpots === Group.maxSize - Group.memberCount`, and `status === 'FULL'` exactly when `freeSpots === 0` (unless the group is BOOKED).
+- A traveller who joins through a join request is never a member of two groups whose stays share a night. Back-to-back stays (one checks out on the day the other checks in) are allowed.
 - `Evaluation.checks` always lists the 6 rules in the order `SAME_CITY, DATES_OVERLAP, BUDGET, SHARED_INTERESTS, GENDER, GROUP_SIZE`.
 - `RoomOption.totalInr === pricePerNightInr × roomsNeeded × nights`, and `roomsNeeded === ceil(partySize / maxAdults)`.
 - Every money value is calculated on the server; the client only formats it.
@@ -442,7 +445,7 @@ A search is stored, then matched **live** against every OPEN group in the same c
 | `GENDER` | seeker's preference allows the owner's gender **and** the owner's preference allows the seeker's gender (`ANY` allows all; `SAME_GENDER` requires equal genders) |
 | `GROUP_SIZE` | `memberCount + 1 ≤ maxSize` |
 
-Groups are also left out (pre-filters, not rules) when `status ≠ OPEN`, or the seeker is the owner or a member.
+Groups are also left out (pre-filters, not rules) when `status ≠ OPEN`, the seeker is the owner or a member, or the group's stay shares a night with a group the seeker has already joined (a traveller is in at most one group per night).
 
 ### E11 · POST /searches (search and get the first page of matches)
 
@@ -539,6 +542,8 @@ Auth: search owner. → `200 Evaluation`, the rule-by-rule result for one group,
 
 A seeker requests to join from a search. The server re-checks all 6 rules at request time, and capacity again at approval. An owner can never overfill a group, even with two approvals in parallel.
 
+A traveller can't be in two groups on the same night. Requests to several overlapping groups are allowed, but the first approval wins: the seeker's other pending requests to overlapping groups are closed, and a later approval of one of them is refused with `409 DATES_CONFLICT`. This holds even when two owners approve the same seeker at the same moment.
+
 **Request lifecycle**
 
 | From | Action (endpoint) | To | Who |
@@ -548,6 +553,7 @@ A seeker requests to join from a search. The server re-checks all 6 rules at req
 | `PENDING` | reject (E19) | `REJECTED` | owner |
 | `PENDING` | withdraw (E20) | `WITHDRAWN` | seeker |
 | `PENDING` | group became FULL or BOOKED | `CLOSED` (automatic) | system |
+| `PENDING` | the seeker joined another group on overlapping nights | `CLOSED` (automatic) | system |
 
 Every state except PENDING is final. After `REJECTED`, `WITHDRAWN` or `CLOSED`, the seeker may send a **new** request (a new `requestId`), as long as the rules still pass.
 
@@ -564,7 +570,7 @@ Auth: traveller.
 { "searchId": "S-1001", "message": "Hi Sarah! I love temples and street food too." }
 ```
 
-The server checks these in order, and the first failure is returned: group exists (`404`) → search exists (`404`) and is the caller's (`403`) → caller is not the owner (`409 OWN_GROUP`) → not a member (`409 ALREADY_MEMBER`) → group not BOOKED (`409 GROUP_CLOSED`) → not FULL (`409 GROUP_FULL`) → **all 6 rules pass** (`422 NOT_ELIGIBLE` listing the failed rules) → no PENDING request already (`409 DUPLICATE_REQUEST`).
+The server checks these in order, and the first failure is returned: group exists (`404`) → search exists (`404`) and is the caller's (`403`) → caller is not the owner (`409 OWN_GROUP`) → not a member (`409 ALREADY_MEMBER`) → group not BOOKED (`409 GROUP_CLOSED`) → not FULL (`409 GROUP_FULL`) → caller not already in another group on overlapping nights (`409 DATES_CONFLICT`) → **all 6 rules pass** (`422 NOT_ELIGIBLE` listing the failed rules) → no PENDING request already (`409 DUPLICATE_REQUEST`).
 
 → `201 { "request": JoinRequest, "group": Group }` (the group's `viewer.relation` is now `PENDING`)
 
@@ -615,19 +621,31 @@ Errors: `400 VALIDATION_ERROR` (bad `status`, `page` or `limit`), `401 UNAUTHENT
 
 Auth: owner of the request's group. No body.
 
-Atomic effect: the request goes PENDING → APPROVED, and the seeker is appended to `memberIds` **only if** the group is still OPEN, has a free place, and the seeker isn't already in it. If that makes the group full, the group becomes FULL and every other PENDING request becomes CLOSED.
+Atomic effect: the request goes PENDING → APPROVED, and the seeker is appended to `memberIds` **only if** the group is still OPEN, has a free place, the seeker isn't already in it, and the seeker hasn't joined another group whose stay overlaps this one. If that makes the group full, the group becomes FULL and every other PENDING request becomes CLOSED. The seeker's own PENDING requests to *other* groups that overlap this stay also become CLOSED. Approvals of the same seeker run one at a time on the server, so two owners can't both add her.
 
-→ `200 { "request": JoinRequest, "group": Group, "closedRequestIds": string[] }`
+→ `200 { "request": JoinRequest, "group": Group, "closedRequestIds": string[], "closedSeekerRequestIds": string[] }`
+
+`closedRequestIds` are this group's other requests (closed because it is now full). `closedSeekerRequestIds` are the seeker's requests to other, overlapping groups (they appear as CLOSED in those owners' inboxes and in the seeker's E17 list).
 
 ```json
 { "request": { "requestId": "JR-1001", "status": "APPROVED", "decidedBy": "T-001", "decidedAt": "…", "...": "..." },
   "group": { "groupId": "G-01", "memberCount": 2, "freeSpots": 1, "status": "OPEN",
              "members": [ { "travellerId": "T-001", "name": "Sarah Thomas", "isOwner": true, "...": "..." },
                           { "travellerId": "T-1001", "name": "Priya Nair", "isOwner": false, "...": "..." } ], "...": "..." },
-  "closedRequestIds": [] }
+  "closedRequestIds": [],
+  "closedSeekerRequestIds": ["JR-1004"] }
 ```
 
-Errors: `401`, `403` (not the owner), `404`, `409 REQUEST_NOT_PENDING`, `409 GROUP_FULL` (the last place was taken first; this request is then CLOSED), `409 GROUP_CLOSED` (booked).
+Errors: `401`, `403` (not the owner), `404`, `409 REQUEST_NOT_PENDING`, `409 GROUP_FULL` (the last place was taken first; this request is then CLOSED), `409 GROUP_CLOSED` (booked), `409 DATES_CONFLICT` (the seeker joined an overlapping group first; this request is then CLOSED), `409 CONFLICT` (another approval of the same seeker is in progress; retry). Approving a request that was closed automatically returns the reason (`GROUP_FULL`, `GROUP_CLOSED` or `DATES_CONFLICT`) rather than `REQUEST_NOT_PENDING`.
+
+**Example 409 `DATES_CONFLICT`**
+
+```json
+{ "error": { "code": "DATES_CONFLICT",
+  "message": "This traveller has already joined another group on overlapping nights.",
+  "details": [ { "groupId": "G-01", "issue": "Already in Kyoto Spring Temples (Kyoto, 10–15 Apr)" } ],
+  "requestId": "req_5d21aa" } }
+```
 
 ### E19 · POST /join-requests/:requestId/reject
 
@@ -791,7 +809,9 @@ Atomic effect:
   "group": { "groupId": "G-01", "status": "BOOKED", "...": "..." } }
 ```
 
-Errors: `401`, `403`, `404`, `409 ALREADY_BOOKED` (including a double-click race), `422 ROOMS_UNAVAILABLE` (with `details[0].date`; nothing changed). After success, the Twin Room's `roomsLeft` for 10–14 Apr goes from 6, 2, 4, 3, 3 to 5, 1, 3, 2, 2. Booking can't be edited or cancelled in v1.
+On the server, step 3's "set BOOKED" happens right after step 1 and only if the member list is still the one that was priced; it is undone if a night fails. So no one can be approved into the group while its rooms are being reduced.
+
+Errors: `401`, `403`, `404`, `409 ALREADY_BOOKED` (including a double-click race), `409 CONFLICT` (a member joined while booking; nothing changed, retry), `422 ROOMS_UNAVAILABLE` (nothing changed). `details[0]` is `{ "date", "roomsLeft", "roomsNeeded", "issue" }`, e.g. `{ "date": "2027-04-13", "roomsLeft": 1, "roomsNeeded": 2, "issue": "Only 1 left on 13 Apr; 2 needed" }`. After success, the Twin Room's `roomsLeft` for 10–14 Apr goes from 6, 2, 4, 3, 3 to 5, 1, 3, 2, 2. Booking can't be edited or cancelled in v1.
 
 ### E29 · GET /groups/:groupId/booking
 
@@ -816,3 +836,5 @@ Not booked yet → `404 { "error": { "code": "NOT_FOUND", "message": "This group
 | --- | --- | --- |
 | v1.0 | 13 Nov 2026 | Initial contract: catalog in MongoDB with `roomsLeft` reduced on booking; `perMemberInr` rounded to 2 decimals (no per-member split list); no `source` field |
 | v1.1 | 13 Nov 2026 | Completeness pass: path-parameter table (§2.1), request/response matrix for all 29 operations (§2.2), BookingQuote schema, example success payloads and error lists for E05–E07, E10, E12, E13, E16, E17, E19–E26, E29 |
+| v1.2 | 13 Nov 2026 | One group per night: new `409 DATES_CONFLICT` (E15, E18) and `409 CONFLICT` (retry) codes; E18 also closes the seeker's overlapping pending requests and returns them in the new `closedSeekerRequestIds` field (additive); matches leave out groups that overlap a trip the seeker has joined (§7 pre-filters); new lifecycle row and invariant |
+| v1.3 | 13 Nov 2026 | E28: the group is set BOOKED before rooms are reduced (undone on failure), new `409 CONFLICT` when a member joins mid-booking; `ROOMS_UNAVAILABLE` details shape documented (E22, E27, E28) |

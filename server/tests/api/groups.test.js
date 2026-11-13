@@ -121,7 +121,7 @@ describe('E08 POST /groups', () => {
     const { city: _c, ...noCity } = SARAH_POST;
     const res = await create(noCity);
     expect(res.status).toBe(400);
-    expect(res.body.error.details).toEqual([{ field: 'city', issue: 'Required' }]);
+    expect(res.body.error.details).toEqual([{ field: 'city', issue: 'is required' }]);
   });
 
   test('the check-out error matches the spec example', async () => {

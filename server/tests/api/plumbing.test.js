@@ -128,7 +128,16 @@ describe('validate (body)', () => {
   test('missing required field → 400 with field details', async () => {
     const res = await post({ age: 26 });
     expectEnvelope(res, 400, 'VALIDATION_ERROR');
-    expect(res.body.error.details).toEqual([{ field: 'name', issue: 'Required' }]);
+    expect(res.body.error.details).toEqual([{ field: 'name', issue: 'is required' }]);
+  });
+
+  test('issues are worded in plain English', async () => {
+    const issueOf = async (body, field) =>
+      (await post(body)).body.error.details.find((d) => d.field === field).issue;
+    expect(await issueOf({ name: 'P' }, 'name')).toBe('must be at least 2 characters');
+    expect(await issueOf({ name: 'Priya', age: 'old' }, 'age')).toBe('must be a number');
+    expect(await issueOf({ name: 'Priya', age: 26.5 }, 'age')).toBe('must be a whole number');
+    expect(await issueOf({ name: 42 }, 'name')).toBe('must be text');
   });
 
   test('unknown field → 400 naming the field', async () => {

@@ -6,16 +6,23 @@ const { rankMatches, scoreMatch } = require('../domain/ranking');
 const { buildEmptyStateHints } = require('../domain/hints');
 const { slicePage } = require('../utils/pagination');
 const { toMatchCard } = require('../dto/search');
+const { staysOverlap } = require('../domain/dates');
 const { latestRequestsByGroup } = require('./requestLookup');
+const { membershipsOf } = require('./membership');
 
 const unique = (list) => [...new Set(list)];
 const PEOPLE_FIELDS = { _id: 0, travellerId: 1, name: 1, gender: 1, genderPreference: 1, interests: 1 };
 
-// Groups matching `filter`, minus the seeker's own (pre-filter: you can't match a group you own
-// or are in), each with its owner profile and member profiles. 2 queries.
+// Groups matching `filter`, minus the pre-filtered ones (not rules): groups the seeker owns or is
+// in, and groups whose stay overlaps a trip the seeker has already joined (one group per night).
+// Each comes with its owner profile and member profiles. 3 queries.
 async function loadCandidates(filter, seekerId) {
-  const groups = (await Group.find(filter, { _id: 0 }).lean()).filter(
-    (g) => g.ownerId !== seekerId && !g.memberIds.includes(seekerId),
+  const [all, myTrips] = await Promise.all([Group.find(filter, { _id: 0 }).lean(), membershipsOf(seekerId)]);
+  const groups = all.filter(
+    (g) =>
+      g.ownerId !== seekerId &&
+      !g.memberIds.includes(seekerId) &&
+      !myTrips.some((trip) => staysOverlap(trip, g)),
   );
   const people = unique(groups.flatMap((g) => [g.ownerId, ...g.memberIds]));
   const travellers = await Traveller.find({ travellerId: { $in: people } }, PEOPLE_FIELDS).lean();

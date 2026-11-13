@@ -8,5 +8,8 @@ router.use(require('./meta')); // E02–E03
 router.use(require('./travellers')); // E04–E07
 router.use(require('./groups')); // E08–E10
 router.use(require('./searches')); // E11–E14
+router.use(require('./joinRequests')); // E15–E20
+router.use(require('./groupPage')); // E21–E26
+router.use(require('./booking')); // E27–E29
 
 module.exports = router;

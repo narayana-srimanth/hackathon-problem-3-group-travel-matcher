@@ -1,4 +1,4 @@
-// Drops all 13 collections and re-seeds: the result is exactly the data pack
+// Drops all 14 collections and re-seeds: the result is exactly the data pack
 // (original members, original roomsLeft, no sign-ups). Run before a demo slot.
 
 const { ALL_MODELS, syncAllIndexes } = require('../models');

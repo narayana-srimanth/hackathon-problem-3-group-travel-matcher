@@ -71,7 +71,7 @@ describe('E04 POST /travellers (sign up)', () => {
     const { gender: _gender, ...noGender } = PRIYA;
     const res = await signUp(noGender);
     expect(res.status).toBe(400);
-    expect(res.body.error.details).toEqual([{ field: 'gender', issue: 'Required' }]);
+    expect(res.body.error.details).toEqual([{ field: 'gender', issue: 'is required' }]);
   });
 
   test('400 for an unknown field (no gender preference typos, no passwords)', async () => {

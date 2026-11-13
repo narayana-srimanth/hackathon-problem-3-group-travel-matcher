@@ -3,7 +3,7 @@
 const { Group, Traveller, JoinRequest } = require('../models');
 const { ID_COLLATION } = require('../models/options');
 const { nextId } = require('../db/counters');
-const { notFound } = require('../errors');
+const { forbidden, notFound } = require('../errors');
 const { toGroup, viewerOf } = require('../dto/group');
 const { assertInDataRange, cityMap } = require('./metaService');
 const { latestRequestsByGroup } = require('./requestLookup');
@@ -55,6 +55,13 @@ async function findGroupOr404(groupId) {
   return group;
 }
 
+// The Common Group Page is members only: 404 unknown group, 403 for anyone not in it
+async function findGroupForMember(groupId, actorId) {
+  const group = await findGroupOr404(groupId);
+  if (!group.memberIds.includes(actorId)) throw forbidden('Only members of this group can do this.');
+  return group;
+}
+
 // E08 — the actor becomes owner and first member. Body is shape-valid (zod); the data range is checked here.
 async function createGroup(body, actorId) {
   await assertInDataRange(body);
@@ -94,4 +101,12 @@ async function myGroups(actorId) {
   };
 }
 
-module.exports = { buildGroupViews, buildGroupView, findGroupOr404, createGroup, getGroup, myGroups };
+module.exports = {
+  buildGroupViews,
+  buildGroupView,
+  findGroupOr404,
+  findGroupForMember,
+  createGroup,
+  getGroup,
+  myGroups,
+};

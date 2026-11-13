@@ -5,9 +5,10 @@ const JoinRequest = require('./JoinRequest');
 const SavedOption = require('./SavedOption');
 const Booking = require('./Booking');
 const Counter = require('./Counter');
+const Lock = require('./Lock');
 const { City, DepartureCity, Interest, Hotel, Room, Availability } = require('./catalog');
 
-// All 13 collections (reset drops exactly these)
+// All 14 collections (reset drops exactly these)
 const ALL_MODELS = [
   City,
   DepartureCity,
@@ -22,6 +23,7 @@ const ALL_MODELS = [
   SavedOption,
   Booking,
   Counter,
+  Lock,
 ];
 
 // Creates missing indexes and drops ones no longer in the schemas
@@ -39,6 +41,7 @@ module.exports = {
   SavedOption,
   Booking,
   Counter,
+  Lock,
   City,
   DepartureCity,
   Interest,

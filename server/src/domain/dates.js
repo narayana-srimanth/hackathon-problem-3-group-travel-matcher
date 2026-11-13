@@ -37,6 +37,9 @@ const sharedNights = (a, b) => {
   return Math.max(0, to - from);
 };
 
+// Two stays clash when they share at least one night (back-to-back stays don't)
+const staysOverlap = (a, b) => sharedNights(a, b) > 0;
+
 // { sharedFrom, sharedTo } with sharedTo = the day after the last shared night; null if none
 function sharedRange(a, b) {
   const { from, to } = overlap(a, b);
@@ -54,6 +57,7 @@ module.exports = {
   nightCount,
   nightsOf,
   sharedNights,
+  staysOverlap,
   sharedRange,
   inDataWindow,
 };

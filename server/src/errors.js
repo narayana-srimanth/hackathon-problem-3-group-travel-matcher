@@ -12,6 +12,7 @@ const ERROR_CODES = Object.freeze({
   GROUP_FULL: 'GROUP_FULL',
   GROUP_CLOSED: 'GROUP_CLOSED',
   REQUEST_NOT_PENDING: 'REQUEST_NOT_PENDING',
+  DATES_CONFLICT: 'DATES_CONFLICT', // already in another group on overlapping nights
   ALREADY_SAVED: 'ALREADY_SAVED',
   ALREADY_BOOKED: 'ALREADY_BOOKED',
   CONFLICT: 'CONFLICT', // fallback for a duplicate key no service handled

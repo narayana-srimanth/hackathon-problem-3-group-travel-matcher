@@ -141,6 +141,7 @@ Rough total: **~17 h** for one developer, Must-haves plus G1/G2 (both are alread
 | D8 | Booking requires `allAgree`? | No: any member can finalise (brief FAQ); the client highlights it when `allAgree` |
 | D9 | Booking id | `BK-<checkIn year>-<6-digit seq>`, counter starts at 0 → `BK-2027-000001` |
 | D10 | Approve re-checks the 6 rules? | No, capacity only (as the spec says): search, group and owner profile are immutable in v1 |
+| D11 | A seeker approved into two groups? | One group per night (agreed, spec v1.2): E15 and E18 refuse overlapping memberships with `409 DATES_CONFLICT`; an approval closes the seeker's other overlapping pending requests (`closedSeekerRequestIds`); matches hide groups that overlap a joined trip. Approvals of the same seeker are serialised by a per-traveller lock (`db/locks.js`) so two owners can't both add her. Back-to-back stays are allowed. Not covered: an owner creating a group that overlaps one they are already in |
 
 ---
 
