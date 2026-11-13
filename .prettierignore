@@ -1,0 +1,4 @@
+data/
+images/
+*.md
+package-lock.json
