@@ -2,6 +2,8 @@
 // (sign-up and search both validate home city and interests against the catalog).
 const { Interest, City, DepartureCity } = require('../models');
 const { DATA_WINDOW } = require('../domain/constants');
+const { andList, formatLongDate, formatWindow } = require('../domain/messages');
+const { unprocessable, ERROR_CODES } = require('../errors');
 
 // E02 — 16 interests in file order
 async function listInterests() {
@@ -40,4 +42,40 @@ async function checkInterests(ids, field = 'interests') {
     .map(({ id, index }) => ({ field: `${field}.${index}`, issue: `'${id}' is not a known interest` }));
 }
 
-module.exports = { listInterests, getDestinations, checkHomeCity, checkInterests };
+// The 5 destination cities by name → { name, country, countryCode, timezone }
+async function cityMap(names) {
+  const filter = names ? { name: { $in: names } } : {};
+  const cities = await City.find(filter, { _id: 0, sortOrder: 0 }).sort({ sortOrder: 1 }).lean();
+  return new Map(cities.map((c) => [c.name, c]));
+}
+
+// 422 OUT_OF_DATA_RANGE unless the city is one of the 5 and the stay is inside the data window.
+// Expects shape-valid input (real dates, checkOut after checkIn).
+async function assertInDataRange({ city, checkIn, checkOut }) {
+  const cities = await cityMap();
+  const details = [];
+  if (!cities.has(city)) details.push({ field: 'city', issue: `'${city}' is not available` });
+  if (checkIn < DATA_WINDOW.from) {
+    details.push({ field: 'checkIn', issue: `must be on or after ${formatLongDate(DATA_WINDOW.from)}` });
+  }
+  if (checkOut > DATA_WINDOW.to) {
+    details.push({ field: 'checkOut', issue: `must be on or before ${formatLongDate(DATA_WINDOW.to)}` });
+  }
+  if (details.length === 0) return cities.get(city);
+
+  const names = andList([...cities.keys()]);
+  throw unprocessable(
+    ERROR_CODES.OUT_OF_DATA_RANGE,
+    `We only have data for ${names} between ${formatWindow(DATA_WINDOW.from, DATA_WINDOW.to)}.`,
+    details,
+  );
+}
+
+module.exports = {
+  listInterests,
+  getDestinations,
+  checkHomeCity,
+  checkInterests,
+  cityMap,
+  assertInDataRange,
+};

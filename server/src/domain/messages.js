@@ -22,6 +22,35 @@ function formatRange(from, to) {
   return m1 === m2 ? `${d1}–${d2} ${MONTHS[m1 - 1]}` : `${formatDay(from)}–${formatDay(to)}`;
 }
 
+const LONG_MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+// '1 April 2027'
+function formatLongDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${LONG_MONTHS[m - 1]} ${y}`;
+}
+
+// The data window in words: '1 and 20 April 2027', or '30 March 2027 and 2 April 2027'
+function formatWindow(from, to) {
+  const [y1, m1, d1] = from.split('-').map(Number);
+  const [y2, m2] = to.split('-').map(Number);
+  if (y1 === y2 && m1 === m2) return `${d1} and ${formatLongDate(to)}`;
+  return `${formatLongDate(from)} and ${formatLongDate(to)}`;
+}
+
 // 'A', 'A or B', 'A, B or C' (and the same with 'and')
 function joinList(items, word) {
   if (items.length <= 1) return items.join('');
@@ -90,6 +119,8 @@ module.exports = {
   plural,
   formatDay,
   formatRange,
+  formatLongDate,
+  formatWindow,
   orList,
   andList,
   preferenceLabel,
