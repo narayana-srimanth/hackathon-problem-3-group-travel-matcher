@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 mongoose.set('strictQuery', true);
 
-async function connectDB(uri) {
+// options.dbName overrides the database in the URI (tests use one database per file)
+async function connectDB(uri, options = {}) {
   try {
-    await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 });
+    await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000, ...options });
   } catch (err) {
     const hint = 'Is MongoDB running? Start it with: docker compose up -d mongo';
     throw new Error(`Could not connect to MongoDB at ${uri}: ${err.message}. ${hint}`);

@@ -12,6 +12,8 @@
   "scripts": {
     "dev": "npm run dev -w server",
     "start": "npm run start -w server",
+    "seed": "npm run seed -w server",
+    "reset": "npm run reset -w server",
     "test": "npm test -w server",
     "lint": "npm run lint -w server",
     "format": "prettier --write .",

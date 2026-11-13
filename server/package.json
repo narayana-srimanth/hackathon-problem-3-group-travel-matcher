@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch src src/server.js",
     "start": "node src/server.js",
+    "seed": "node src/scripts/seed.js",
+    "reset": "node src/scripts/reset.js",
     "test": "jest --runInBand",
     "lint": "eslint src tests"
   },
