@@ -1,0 +1,174 @@
+[
+  {
+    "group_id": "G-01",
+    "name": "Kyoto Spring Temples",
+    "owner_id": "T-001",
+    "member_ids": [
+      "T-001"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-10",
+    "check_out": "2027-04-15",
+    "max_size": 3,
+    "budget_inr": 60000,
+    "itinerary": "Fushimi Inari at sunrise, Nishiki Market lunch, Gion walk, photo day in Arashiyama."
+  },
+  {
+    "group_id": "G-02",
+    "name": "Kyoto Late Bloom",
+    "owner_id": "T-003",
+    "member_ids": [
+      "T-003"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-15",
+    "check_out": "2027-04-18",
+    "max_size": 3,
+    "budget_inr": 64000,
+    "itinerary": "Philosopher's Path, tea house, Kiyomizu-dera evening light-up."
+  },
+  {
+    "group_id": "G-03",
+    "name": "Osaka Food and Temples",
+    "owner_id": "T-004",
+    "member_ids": [
+      "T-004"
+    ],
+    "city": "Osaka",
+    "check_in": "2027-04-10",
+    "check_out": "2027-04-14",
+    "max_size": 4,
+    "budget_inr": 61000,
+    "itinerary": "Dotonbori food crawl, Shitenno-ji, Osaka Castle park."
+  },
+  {
+    "group_id": "G-04",
+    "name": "Kyoto Ryokan Retreat",
+    "owner_id": "T-006",
+    "member_ids": [
+      "T-006"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-10",
+    "check_out": "2027-04-14",
+    "max_size": 3,
+    "budget_inr": 87000,
+    "itinerary": "Two nights in a ryokan, kaiseki dinner, private temple tours."
+  },
+  {
+    "group_id": "G-05",
+    "name": "Kyoto Trails and Shrines",
+    "owner_id": "T-007",
+    "member_ids": [
+      "T-007",
+      "T-008"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-11",
+    "check_out": "2027-04-15",
+    "max_size": 3,
+    "budget_inr": 63000,
+    "itinerary": "Mount Kurama hike, Kibune shrine, Kyoto National Museum."
+  },
+  {
+    "group_id": "G-06",
+    "name": "Kyoto Camera Walk",
+    "owner_id": "T-009",
+    "member_ids": [
+      "T-009"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-10",
+    "check_out": "2027-04-13",
+    "max_size": 3,
+    "budget_inr": 62000,
+    "itinerary": "Golden hour shots at Yasaka Pagoda, Pontocho at night, market breakfast."
+  },
+  {
+    "group_id": "G-07",
+    "name": "Kyoto Market Mornings",
+    "owner_id": "T-010",
+    "member_ids": [
+      "T-010",
+      "T-011",
+      "T-012"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-12",
+    "check_out": "2027-04-16",
+    "max_size": 3,
+    "budget_inr": 60000,
+    "itinerary": "Nishiki and Demachi markets, cooking class, Kinkaku-ji."
+  },
+  {
+    "group_id": "G-08",
+    "name": "Kyoto Night Food Trail",
+    "owner_id": "T-013",
+    "member_ids": [
+      "T-013"
+    ],
+    "city": "Kyoto",
+    "check_in": "2027-04-10",
+    "check_out": "2027-04-14",
+    "max_size": 4,
+    "budget_inr": 55000,
+    "itinerary": "Pontocho izakaya night, Nishiki Market, Yasaka Shrine, Kiyomizu-dera."
+  },
+  {
+    "group_id": "G-09",
+    "name": "Tokyo Food Crawl",
+    "owner_id": "T-014",
+    "member_ids": [
+      "T-014",
+      "T-015"
+    ],
+    "city": "Tokyo",
+    "check_in": "2027-04-05",
+    "check_out": "2027-04-09",
+    "max_size": 4,
+    "budget_inr": 70000,
+    "itinerary": "Tsukiji outer market, Shinjuku Golden Gai, Shibuya crossing at night, Akihabara."
+  },
+  {
+    "group_id": "G-10",
+    "name": "Dubai Desert and Beach",
+    "owner_id": "T-017",
+    "member_ids": [
+      "T-017"
+    ],
+    "city": "Dubai",
+    "check_in": "2027-04-08",
+    "check_out": "2027-04-12",
+    "max_size": 4,
+    "budget_inr": 80000,
+    "itinerary": "Desert safari, Jumeirah Beach, Dubai Mall, Burj Khalifa at sunset."
+  },
+  {
+    "group_id": "G-11",
+    "name": "Abu Dhabi Culture Days",
+    "owner_id": "T-019",
+    "member_ids": [
+      "T-019"
+    ],
+    "city": "Abu Dhabi",
+    "check_in": "2027-04-13",
+    "check_out": "2027-04-17",
+    "max_size": 3,
+    "budget_inr": 50000,
+    "itinerary": "Louvre Abu Dhabi, Sheikh Zayed Grand Mosque, Corniche beach, Qasr Al Hosn."
+  },
+  {
+    "group_id": "G-12",
+    "name": "Tokyo Gardens and Hikes",
+    "owner_id": "T-023",
+    "member_ids": [
+      "T-023"
+    ],
+    "city": "Tokyo",
+    "check_in": "2027-04-14",
+    "check_out": "2027-04-18",
+    "max_size": 3,
+    "budget_inr": 52000,
+    "itinerary": "Shinjuku Gyoen, Mount Takao day hike, Ueno Park, teamLab."
+  }
+]

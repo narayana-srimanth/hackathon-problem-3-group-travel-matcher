@@ -1,0 +1,342 @@
+[
+  {
+    "traveller_id": "T-001",
+    "name": "Sarah Thomas",
+    "age": 27,
+    "gender": "FEMALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "TEMPLES",
+      "STREET_FOOD",
+      "PHOTOGRAPHY",
+      "BUDGET_STAYS"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-002",
+    "name": "Priya Shah",
+    "age": 26,
+    "gender": "FEMALE",
+    "home_city": "Mumbai",
+    "home_airport": "BOM",
+    "interests": [
+      "TEMPLES",
+      "STREET_FOOD",
+      "ADVENTURE"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-003",
+    "name": "Meera Iyer",
+    "age": 29,
+    "gender": "FEMALE",
+    "home_city": "Chennai",
+    "home_airport": "MAA",
+    "interests": [
+      "STREET_FOOD",
+      "TEMPLES",
+      "NATURE"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-004",
+    "name": "Ananya Rao",
+    "age": 31,
+    "gender": "FEMALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "TEMPLES",
+      "STREET_FOOD",
+      "SHOPPING"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-005",
+    "name": "Kavya Nair",
+    "age": 24,
+    "gender": "FEMALE",
+    "home_city": "Chennai",
+    "home_airport": "MAA",
+    "interests": [
+      "NIGHTLIFE",
+      "SHOPPING",
+      "THEME_PARKS"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-006",
+    "name": "Riya Kapoor",
+    "age": 28,
+    "gender": "FEMALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "STREET_FOOD",
+      "TEMPLES",
+      "LUXURY"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-007",
+    "name": "Neha Gupta",
+    "age": 30,
+    "gender": "FEMALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "TEMPLES",
+      "HIKING",
+      "MUSEUMS"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-008",
+    "name": "Diya Menon",
+    "age": 25,
+    "gender": "FEMALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "STREET_FOOD",
+      "ADVENTURE",
+      "PHOTOGRAPHY"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-009",
+    "name": "Arjun Mehta",
+    "age": 29,
+    "gender": "MALE",
+    "home_city": "Mumbai",
+    "home_airport": "BOM",
+    "interests": [
+      "TEMPLES",
+      "STREET_FOOD",
+      "PHOTOGRAPHY"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-010",
+    "name": "Isha Verma",
+    "age": 27,
+    "gender": "FEMALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "TEMPLES",
+      "STREET_FOOD",
+      "NATURE"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-011",
+    "name": "Sneha Pillai",
+    "age": 26,
+    "gender": "FEMALE",
+    "home_city": "Chennai",
+    "home_airport": "MAA",
+    "interests": [
+      "STREET_FOOD",
+      "SHOPPING",
+      "TEMPLES"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-012",
+    "name": "Pooja Reddy",
+    "age": 32,
+    "gender": "FEMALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "TEMPLES",
+      "PHOTOGRAPHY",
+      "STREET_FOOD"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-013",
+    "name": "Lakshmi Das",
+    "age": 28,
+    "gender": "FEMALE",
+    "home_city": "Chennai",
+    "home_airport": "MAA",
+    "interests": [
+      "STREET_FOOD",
+      "TEMPLES",
+      "NIGHTLIFE"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-014",
+    "name": "Rohan Joshi",
+    "age": 30,
+    "gender": "MALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "STREET_FOOD",
+      "NIGHTLIFE",
+      "SHOPPING",
+      "PHOTOGRAPHY"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-015",
+    "name": "Vikram Singh",
+    "age": 33,
+    "gender": "MALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "NIGHTLIFE",
+      "STREET_FOOD",
+      "FINE_DINING"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-016",
+    "name": "Rahul Bose",
+    "age": 27,
+    "gender": "MALE",
+    "home_city": "Mumbai",
+    "home_airport": "BOM",
+    "interests": [
+      "STREET_FOOD",
+      "NIGHTLIFE",
+      "THEME_PARKS"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-017",
+    "name": "Aisha Khan",
+    "age": 29,
+    "gender": "FEMALE",
+    "home_city": "Mumbai",
+    "home_airport": "BOM",
+    "interests": [
+      "DESERT",
+      "BEACHES",
+      "SHOPPING",
+      "LUXURY"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-018",
+    "name": "Tara Sen",
+    "age": 26,
+    "gender": "FEMALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "DESERT",
+      "BEACHES",
+      "ADVENTURE"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-019",
+    "name": "Kabir Malik",
+    "age": 34,
+    "gender": "MALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "MUSEUMS",
+      "BEACHES",
+      "PHOTOGRAPHY",
+      "HISTORY"
+    ],
+    "gender_preference": "SAME_GENDER"
+  },
+  {
+    "traveller_id": "T-020",
+    "name": "Dev Patel",
+    "age": 31,
+    "gender": "MALE",
+    "home_city": "Mumbai",
+    "home_airport": "BOM",
+    "interests": [
+      "MUSEUMS",
+      "PHOTOGRAPHY",
+      "HISTORY"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-021",
+    "name": "Nisha Agarwal",
+    "age": 30,
+    "gender": "FEMALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "MUSEUMS",
+      "PHOTOGRAPHY",
+      "BEACHES"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-022",
+    "name": "Farhan Ali",
+    "age": 28,
+    "gender": "MALE",
+    "home_city": "Bengaluru",
+    "home_airport": "BLR",
+    "interests": [
+      "STREET_FOOD",
+      "SHOPPING",
+      "NIGHTLIFE"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-023",
+    "name": "Simran Kaur",
+    "age": 27,
+    "gender": "FEMALE",
+    "home_city": "Delhi",
+    "home_airport": "DEL",
+    "interests": [
+      "NATURE",
+      "HIKING",
+      "PHOTOGRAPHY"
+    ],
+    "gender_preference": "ANY"
+  },
+  {
+    "traveller_id": "T-024",
+    "name": "Aditya Rao",
+    "age": 35,
+    "gender": "MALE",
+    "home_city": "Chennai",
+    "home_airport": "MAA",
+    "interests": [
+      "HIKING",
+      "NATURE",
+      "TEMPLES"
+    ],
+    "gender_preference": "ANY"
+  }
+]
