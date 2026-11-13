@@ -1,0 +1,82 @@
+[
+  {
+    "interest": "TEMPLES",
+    "label": "Temples and shrines",
+    "category": "CULTURE"
+  },
+  {
+    "interest": "MUSEUMS",
+    "label": "Museums and galleries",
+    "category": "CULTURE"
+  },
+  {
+    "interest": "HISTORY",
+    "label": "History and old towns",
+    "category": "CULTURE"
+  },
+  {
+    "interest": "STREET_FOOD",
+    "label": "Street food and markets",
+    "category": "FOOD"
+  },
+  {
+    "interest": "FINE_DINING",
+    "label": "Fine dining",
+    "category": "FOOD"
+  },
+  {
+    "interest": "NIGHTLIFE",
+    "label": "Nightlife",
+    "category": "SOCIAL"
+  },
+  {
+    "interest": "SHOPPING",
+    "label": "Shopping",
+    "category": "SOCIAL"
+  },
+  {
+    "interest": "PHOTOGRAPHY",
+    "label": "Photography",
+    "category": "HOBBY"
+  },
+  {
+    "interest": "HIKING",
+    "label": "Hiking",
+    "category": "NATURE"
+  },
+  {
+    "interest": "NATURE",
+    "label": "Parks and gardens",
+    "category": "NATURE"
+  },
+  {
+    "interest": "BEACHES",
+    "label": "Beaches",
+    "category": "NATURE"
+  },
+  {
+    "interest": "DESERT",
+    "label": "Desert trips",
+    "category": "NATURE"
+  },
+  {
+    "interest": "ADVENTURE",
+    "label": "Adventure sports",
+    "category": "ACTIVITY"
+  },
+  {
+    "interest": "THEME_PARKS",
+    "label": "Theme parks",
+    "category": "ACTIVITY"
+  },
+  {
+    "interest": "BUDGET_STAYS",
+    "label": "Budget stays",
+    "category": "STYLE"
+  },
+  {
+    "interest": "LUXURY",
+    "label": "Luxury stays",
+    "category": "STYLE"
+  }
+]
