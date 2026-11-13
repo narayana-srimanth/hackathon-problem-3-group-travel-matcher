@@ -1,0 +1,32 @@
+{
+  "name": "group-travel-matcher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Group Travel Matcher: match solo travellers into group trips, then plan and book hotels together.",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta --kill-others-on-fail \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "start": "npm run start -w server",
+    "build": "npm run build -w client",
+    "seed": "npm run seed -w server",
+    "reset": "npm run reset -w server",
+    "test": "npm test -w server",
+    "typecheck": "npm run typecheck -w client",
+    "lint": "npm run lint -w server",
+    "format": "prettier --write .",
+    "db:up": "docker compose up -d mongo",
+    "db:down": "docker compose down"
+  },
+  "devDependencies": {
+    "concurrently": "9.1.2",
+    "prettier": "3.3.3"
+  }
+}

@@ -1,0 +1,6 @@
+data/
+images/
+*.md
+package-lock.json
+# the client keeps its own formatting
+client/
